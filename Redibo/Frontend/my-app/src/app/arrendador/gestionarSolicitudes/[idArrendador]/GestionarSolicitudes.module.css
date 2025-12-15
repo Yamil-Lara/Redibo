@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: rgb(255, 255, 255);
+  }
+  
+  .body {
+    flex-grow: 1;
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+    
+  .loginBtn {
+      background-color: #1e40af;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+    

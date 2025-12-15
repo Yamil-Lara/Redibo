@@ -1,0 +1,139 @@
+.carsContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.carContainer {
+  background-color: #e8d9bf;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carImage {
+  width: 100%;
+  aspect-ratio: 16 / 6;
+  object-fit: cover; 
+  display: block;
+  border-radius: 10px 10px 0 0;
+}
+
+.carInfo {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carName {
+  font-weight: bold;
+  color: #033472;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.carPrice {
+  font-weight: bold;
+  color: #033472;
+  font-size: 16px;
+}
+
+.licensePlate {
+  color: #666;
+  font-size: 14px;
+}
+
+.pendingContainer {
+  padding: 0 15px 10px;
+}
+
+.pendingBadge {
+  display: inline-block;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  color: #000000;
+}
+
+.rentedBadge {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.requestsTitle {
+  padding: 10px 15px;
+  color: #033472;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.requestItem {
+  padding: 10px 15px;
+  background-color: white;
+  margin: 0 15px 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.requesterInfo {
+  font-size: 14px;
+}
+
+.requesterName {
+  font-weight: bold;
+  color: #333;
+}
+
+.requestDate {
+  color: #666;
+  font-size: 12px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.btnReject {
+  background-color: #033472;
+  color: white;
+}
+
+.btnAccept {
+  background-color: #ff9800;
+  color: white;
+}
+
+.noResultsMessage {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 20px;
+}
+
+.noRequestsMessage {
+  padding: 10px 16px;
+  text-align: center;
+  color: #000000;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .carsContainer {
+    grid-template-columns: 1fr;
+  }
+}
