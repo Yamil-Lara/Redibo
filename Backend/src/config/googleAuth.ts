@@ -6,13 +6,21 @@ import { generateToken } from "../utils/auth/generateToken";
 
 const prisma = new PrismaClient();
 
+if (
+  !process.env.GOOGLE_CLIENT_ID ||
+  !process.env.GOOGLE_CLIENT_SECRET ||
+  !process.env.GOOGLE_CALLBACK_URL
+) {
+  throw new Error('Google OAuth environment variables are missing')
+}
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       callbackURL:
-      "http://localhost:3001/api/auth/google/callback",
+      "http://localhost:3000/api/auth/google/callback",
   },
   async (_accessToken, _refreshToken, profile, done) => {
     console.log("🔵 Perfil de Google:", profile);

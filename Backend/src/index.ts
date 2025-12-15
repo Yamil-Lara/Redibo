@@ -2,7 +2,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
-import dotenv from "dotenv";
 import session from "express-session";
 import passport from "passport";
 import path from "path";
@@ -43,8 +42,6 @@ import mapaRoutes from "./routes/speedcode/filtroMapaPrecioRoutes";
 //Servicios y controladores - QA-nTastic
 import autoRoutes from "./routes/qantastic/auto.routes"
 
-// Cargar variables de entorno
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
