@@ -10,36 +10,36 @@ import PagoQR from "./PagoQR";
 import "../../globals.css";
 import { IoArrowBack } from "react-icons/io5";
 
-interface VistaPagoProps {
-  id: string | null;
-  monto: string | null;
-}
-
-// Definimos una interfaz para evitar el error de 'any'
+// Definimos la interfaz para evitar el uso de 'any'
 interface Vehiculo {
   idReserva: number;
   marca: string;
   modelo: string;
+  imagen: string;
   descripcion: string;
   placa: string;
   fechaInicio: string;
   fechaFin: string;
   totalConGarantia: number;
-  imagen: string;
+}
+
+interface VistaPagoProps {
+  id: string | null;
+  monto: string | null;
 }
 
 const VistaPago = ({ id, monto }: VistaPagoProps) => {
   const router = useRouter();
   const [modoPago, setModoPago] = useState<string | null>(null);
-  
-  // Eliminamos los setters no usados si no planeas cambiar estos estados
+  // Eliminamos setters no usados (setLoading, setQrImage) si no tienen lógica aún
   const [loading] = useState(false); 
-  const [qrImage] = useState("");
+  const [qrImage] = useState(""); 
   
+  // Usamos la interfaz Vehiculo en lugar de any
   const [vehiculo, setVehiculo] = useState<Vehiculo | null>(null);
   
-  // Eliminamos idReserva state porque no se leía, solo se escribía.
-  // Usaremos una variable local o derivada si fuera necesario.
+  // Eliminamos idReserva si solo se usaba localmente en el useEffect
+  // const [idReserva, setIdReserva] = useState<number | null>(null);
 
   const [nombreTitular, setNombreTitular] = useState("");
   const [numeroTarjeta, setNumeroTarjeta] = useState("");
@@ -52,10 +52,13 @@ const VistaPago = ({ id, monto }: VistaPagoProps) => {
   useEffect(() => {
     if (id) {
       const idReservaNum = parseInt(id);
-      // No necesitamos setIdReserva si no lo usamos en el render
+      // setIdReserva(idReservaNum); // Eliminado porque no se leía
+      
+      // RECOMENDACIÓN: Usa tu variable de entorno en lugar de la URL fija si es posible
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://vercel-back-speed-code.vercel.app/api";
+
       axios
-        // OJO: Asegúrate que esta URL apunta a tu backend correcto (local o prod)
-        .get(`https://vercel-back-speed-code.vercel.app/api/reservas/${idReservaNum}`)
+        .get(`${apiUrl}/reservas/${idReservaNum}`)
         .then((response) => {
           const data = response.data;
           setVehiculo({
@@ -103,14 +106,15 @@ const VistaPago = ({ id, monto }: VistaPagoProps) => {
 
         <div className="space-y-4">
           <div className="relative flex justify-center">
-            {/* Reemplazamos <img> por <Image /> */}
+            {/* Reemplazo de img por Image de Next.js */}
             <div className="relative w-[400px] h-[250px]">
-                <Image
+              <Image
                 src={vehiculo.imagen}
                 alt={`${vehiculo.marca} ${vehiculo.modelo}`}
                 fill
                 className="object-cover rounded-lg shadow-lg"
-                />
+                unoptimized // Necesario si usas URLs externas no configuradas en next.config.ts
+              />
             </div>
             
             <button

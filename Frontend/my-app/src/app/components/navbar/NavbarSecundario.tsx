@@ -13,15 +13,15 @@ interface NavbarInicioSesionProps {
   onBecomeDriver: () => void;
   activeBtn: number;
   setActiveBtn: (index: number) => void;
-  className?: string; // <-- AGREGA ESTA LÍNEA
+  className?: string;
 }
 
 export default function NavbarInicioSesion({ 
   onBecomeHost, 
-  onBecomeDriver,
+  onBecomeDriver, // Se mantiene aquí si lo pasas desde el padre, aunque ProfileMenu no lo use ahora
   activeBtn,
   setActiveBtn,
-  className // <-- AGREGA ESTA LÍNEA
+  className
 }: NavbarInicioSesionProps) {
   const user = useUser();
   const [profilePhotoUrl, setProfilePhotoUrl] = useState<string | null>(null);
@@ -60,14 +60,12 @@ export default function NavbarInicioSesion({
           </h1>
         </Link>
 
-        {/* ✅ Botones segmentados reutilizables */}
         <SegmentedButtonGroup
           buttons={['Home', 'Autos', 'Botón3', 'Botón4', 'Botón5']}
           activeIndex={activeBtn}
           onClick={handleButtonClick}
         />
         
-        {/*Campana*/}
         <NotificacionesCampana/>
         
         <div className="relative z-[100] flex justify-center gap-0 bg-[var(--naranja)] rounded-[20px] shadow-[var(--sombra)] overflow-visible">
@@ -101,13 +99,12 @@ export default function NavbarInicioSesion({
             )}
           </div>
 
-          {/* Componente menú */}
           {isMenuOpen && (
             <ProfileMenu 
               onLogout={handleLogout} 
               router={router} 
               onBecomeHost={onBecomeHost} 
-              onBecomeDriver={onBecomeDriver} 
+              // onBecomeDriver eliminado de aquí
               user={user}
             />
           )}
@@ -121,13 +118,11 @@ function ProfileMenu({
   onLogout,
   router,
   onBecomeHost,
-  // onBecomeDriver,  <-- ELIMINADO PORQUE NO SE USA
   user
 }: {
   onLogout: () => void;
   router: ReturnType<typeof useRouter>;
   onBecomeHost: () => void;
-  onBecomeDriver: () => void; // Puedes mantener el tipo si quieres, pero mejor quítalo si no se usa
   user: ReturnType<typeof useUser>;  
 }) {
   return (
