@@ -14,14 +14,17 @@ if (
   throw new Error('Google OAuth environment variables are missing')
 }
 
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? process.env.BACKEND_URL // Tu URL de Render (sin barra al final)
+  : "http://localhost:3001";
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      callbackURL:
-      "http://localhost:3000/api/auth/google/callback",
-  },
+      callbackURL: `${BASE_URL}/api/auth/google/callback`, // <--- URL Dinámica
+    },
   async (_accessToken, _refreshToken, profile, done) => {
     console.log("🔵 Perfil de Google:", profile);
     console.log(
