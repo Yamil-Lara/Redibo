@@ -18,11 +18,22 @@ interface User {
 
 const getUserProfileImage = (fotoPerfil: string | undefined): string => {
   if (!fotoPerfil) {
-    return "/userIcon.svg";
+    return "/userIcon.svg"; // Imagen por defecto si es null/undefined
   }
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "";
-  return `${baseUrl}${fotoPerfil}`;
-  
+
+  // 1. Si la imagen ya es una URL completa (ej: Google Auth), úsala tal cual
+  if (fotoPerfil.startsWith("http") || fotoPerfil.startsWith("https")) {
+    return fotoPerfil;
+  }
+
+  // 2. Definir la URL base del backend (usa localhost:3001 si no hay variable de entorno)
+  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+
+  // 3. Asegurar que la ruta tenga un "/" al inicio para concatenar bien
+  const path = fotoPerfil.startsWith("/") ? fotoPerfil : `/${fotoPerfil}`;
+
+  // Retorna la URL completa: http://localhost:3001/uploads/mi-foto.jpg
+  return `${baseUrl}${path}`;
 };
 
 const MAX_RENTERS = 5;

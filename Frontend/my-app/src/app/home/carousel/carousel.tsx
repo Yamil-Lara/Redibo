@@ -9,7 +9,6 @@ import Image from 'next/image';
 interface Vehicle {
   id: number;
   nombre: string;
-  precio: number;
   calificacion: number;
   estado: string;
   latitud: number;
@@ -17,8 +16,6 @@ interface Vehicle {
   imageUrl: string;
   brand: string;
   model: string;
-  colour: string;
-  plate: string;
   description: string;
   pricePerDay: number;
   averageRating?: number;
@@ -33,7 +30,7 @@ export default function Carousel() {
 
   const obtenerVehiculosTop = async () => {
     try {
-      const response = await axios.get('https://vercel-back-speed-code.vercel.app/api/autos-top');
+      const response = await axios.get('http://localhost:3001/api/autos-top');
       const data = response.data;
 
       type VehiculoApi = {
@@ -41,11 +38,10 @@ export default function Carousel() {
         imagen: string;
         marca: string;
         modelo: string;
-        color: string;
         placa: string;
         descripcion: string;
         tarifa: number;
-        promedio_calificacion?: number;
+        calificacion?: number;
       };
 
       const formattedData: Vehicle[] = data.map((vehiculo: VehiculoApi) => ({
@@ -53,11 +49,9 @@ export default function Carousel() {
         imageUrl: vehiculo.imagen,
         brand: vehiculo.marca,
         model: vehiculo.modelo,
-        colour: vehiculo.color,
-        plate: vehiculo.placa,
         description: vehiculo.descripcion,
         pricePerDay: vehiculo.tarifa,
-        averageRating: vehiculo.promedio_calificacion,
+        averageRating: vehiculo.calificacion,
       }));
 
       setVehicles(formattedData);
@@ -111,29 +105,21 @@ export default function Carousel() {
           `}
         >
           <div className={styles.imageContainer}>
-            {/*<img
-              src={vehicle.imageUrl}
-              alt={`${vehicle.brand} ${vehicle.model}`}
-              className={styles.image}
-              loading="lazy"
-            />*/}
-            <Image
+            <img
               src={vehicle.imageUrl}
               alt={`${vehicle.brand} ${vehicle.model}`}
               className={styles.image}
               width={400} // ajusta según el diseño real
               height={250} // ajusta según el diseño real
-              objectFit="cover"
+              style={{ objectFit: 'cover' }}
             />
           </div>
           <div className={styles.info}>
             <h3>{vehicle.brand} {vehicle.model}</h3>
             <h2>{vehicle.description}</h2>
             <div className={styles.details}>
-              <p className={styles.price}>Bs. {vehicle.pricePerDay}/día</p>
-              <p className={styles.rating}>
-                ⭐ {vehicle.averageRating?.toFixed(2) || 'N/A'}
-              </p>
+              <p className={styles.price}>{vehicle.pricePerDay} Bs./día</p>
+              <p className={styles.rating}>⭐ {vehicle.averageRating?.toFixed(2) || 'N/A'}</p>
             </div>
             </div>
         </div>

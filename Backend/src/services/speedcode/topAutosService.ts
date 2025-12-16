@@ -26,7 +26,8 @@ export const obtenerTopAutos = async () => {
 
   return autos.map(auto => ({
     id: auto.idAuto,
-    nombre: `${auto.marca}-${auto.modelo}`,
+    marca: auto.marca,
+    modelo: auto.modelo,
     descripcion: auto.descripcion,
     tarifa: auto.precioRentaDiario,
     calificacion: auto.calificacionPromedio,

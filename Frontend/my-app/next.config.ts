@@ -51,6 +51,12 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3001", // El puerto de tu backend
+        pathname: "/**",
+      },
+      {
     protocol: "https",
     hostname: "media.istockphoto.com",
     port: "",
