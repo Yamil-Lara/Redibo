@@ -65,11 +65,17 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
-    protocol: "https",
-    hostname: "media.istockphoto.com",
-    port: "",
-    pathname: "/**",
-},
+        protocol: "https",
+        hostname: "media.istockphoto.com",
+        port: "",
+        pathname: "/**",
+      },
+      // 👇 Agrega este nuevo dominio para la imagen por defecto
+      { protocol: "https", 
+        hostname: "previews.123rf.com", 
+        port: "", 
+        pathname: "/**", 
+      },
     ],
   },
 };

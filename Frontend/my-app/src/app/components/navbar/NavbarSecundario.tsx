@@ -121,13 +121,13 @@ function ProfileMenu({
   onLogout,
   router,
   onBecomeHost,
-  onBecomeDriver,
+  // onBecomeDriver,  <-- ELIMINADO PORQUE NO SE USA
   user
 }: {
   onLogout: () => void;
   router: ReturnType<typeof useRouter>;
   onBecomeHost: () => void;
-  onBecomeDriver: () => void;
+  onBecomeDriver: () => void; // Puedes mantener el tipo si quieres, pero mejor quítalo si no se usa
   user: ReturnType<typeof useUser>;  
 }) {
   return (

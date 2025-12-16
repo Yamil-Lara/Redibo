@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Image from "next/image"; // Importamos Image
 import ModalSeleccionPago from "./ModalSeleccionPago";
 import PagoTargeta from "./PagoTargeta";
 import PagoQR from "./PagoQR";
@@ -14,13 +15,31 @@ interface VistaPagoProps {
   monto: string | null;
 }
 
+// Definimos una interfaz para evitar el error de 'any'
+interface Vehiculo {
+  idReserva: number;
+  marca: string;
+  modelo: string;
+  descripcion: string;
+  placa: string;
+  fechaInicio: string;
+  fechaFin: string;
+  totalConGarantia: number;
+  imagen: string;
+}
+
 const VistaPago = ({ id, monto }: VistaPagoProps) => {
   const router = useRouter();
   const [modoPago, setModoPago] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [qrImage, setQrImage] = useState("");
-  const [vehiculo, setVehiculo] = useState<any>(null);
-  const [idReserva, setIdReserva] = useState<number | null>(null);
+  
+  // Eliminamos los setters no usados si no planeas cambiar estos estados
+  const [loading] = useState(false); 
+  const [qrImage] = useState("");
+  
+  const [vehiculo, setVehiculo] = useState<Vehiculo | null>(null);
+  
+  // Eliminamos idReserva state porque no se leía, solo se escribía.
+  // Usaremos una variable local o derivada si fuera necesario.
 
   const [nombreTitular, setNombreTitular] = useState("");
   const [numeroTarjeta, setNumeroTarjeta] = useState("");
@@ -33,8 +52,9 @@ const VistaPago = ({ id, monto }: VistaPagoProps) => {
   useEffect(() => {
     if (id) {
       const idReservaNum = parseInt(id);
-      setIdReserva(idReservaNum);
+      // No necesitamos setIdReserva si no lo usamos en el render
       axios
+        // OJO: Asegúrate que esta URL apunta a tu backend correcto (local o prod)
         .get(`https://vercel-back-speed-code.vercel.app/api/reservas/${idReservaNum}`)
         .then((response) => {
           const data = response.data;
@@ -83,11 +103,16 @@ const VistaPago = ({ id, monto }: VistaPagoProps) => {
 
         <div className="space-y-4">
           <div className="relative flex justify-center">
-            <img
-              src={vehiculo.imagen}
-              alt={`${vehiculo.marca} ${vehiculo.modelo}`}
-              className="w-[400px] h-[250px] object-cover rounded-lg shadow-lg"
-            />
+            {/* Reemplazamos <img> por <Image /> */}
+            <div className="relative w-[400px] h-[250px]">
+                <Image
+                src={vehiculo.imagen}
+                alt={`${vehiculo.marca} ${vehiculo.modelo}`}
+                fill
+                className="object-cover rounded-lg shadow-lg"
+                />
+            </div>
+            
             <button
               onClick={() => {
                 const imageWindow = window.open("", "_blank");
