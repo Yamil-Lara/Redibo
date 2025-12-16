@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import CalificarInquilino from '@/app/components/modals/CalificarInquilino';
 import NavbarInicioSesion from '@/app/components/navbar/NavbarSecundario';
-import ComentariosRecibidos from '@/app/components/modals/ComentariosRecibidos';
+import ComentariosRecibidos from '@/app/components/modals/comentariosRecibidos';
 
 const CalificacionesPage = () => {
   const [activeTab, setActiveTab] = useState('comentarios');
