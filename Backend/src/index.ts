@@ -1,15 +1,15 @@
-//src/index.ts
+// src/index.ts
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
+import dotenv from "dotenv";
 import session from "express-session";
-import passport from "passport";
 import path from "path";
 import { PrismaClient } from "@prisma/client";
-import { v4 as uuidv4 } from "uuid";
+// import passport from "passport"; // 👈 COMENTADO O BORRADO
 
 // Configuración de Google Auth
-import "./config/googleAuth";
+// import "./config/googleAuth";  // 👈 ESTA LÍNEA ES LA CAUSANTE DEL ERROR, BORRARLA
 
 // Rutas de autenticación
 import passwordRoutes from "./routes/auth/password.routes";
@@ -36,12 +36,13 @@ import { NotificacionController } from "./controllers/notificaciones/notificacio
 import { SSEController } from "./controllers/notificaciones/sse.controller";
 import { createNotificacionRoutes } from "./routes/notificaciones/notificacion.routes";
 // Servicios y controladores - SpeedCode
-//import mapaRoutes from "../src/routes/speedcode/filtroMapaPrecioRoutes";
 import mapaRoutes from "./routes/speedcode/filtroMapaPrecioRoutes";
 
 //Servicios y controladores - QA-nTastic
 import autoRoutes from "./routes/qantastic/auto.routes"
 
+// Cargar variables de entorno
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -69,13 +70,14 @@ async function ensureDefaultUbicacion() {
     }
   } catch (error) {
     console.error("❌ Error al verificar/crear ubicación por defecto:", error);
-    throw error;
+    // No lanzar error para que el server siga corriendo
   }
 }
 
 // ✅ CORS robusto
 app.use((req: Request, res: Response, next: NextFunction): void => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  // Ajusta esto a tu dominio de Vercel en producción o usa "*"
+  res.header("Access-Control-Allow-Origin", "*"); 
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
@@ -93,14 +95,13 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware para keep-alive (para notificaciones SSE)
+// Middleware para keep-alive
 app.use((req, res, next) => {
   req.socket.setKeepAlive(true);
   req.socket.setTimeout(0);
   next();
 });
 
-// Middleware para SSE (evitar compresión)
 app.use((req, res, next) => {
   if (req.path.includes("/api/notificaciones/sse")) {
     res.set("Content-Encoding", "identity");
@@ -132,9 +133,9 @@ app.use(
   })
 );
 
-// Configuración de Passport
-app.use(passport.initialize());
-app.use(passport.session());
+// Configuración de Passport (COMENTADO TAMBIÉN)
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Configuración de servicios y controladores para notificaciones
 const sseService = SSEService.getInstance();
@@ -142,10 +143,9 @@ const notificacionService = new NotificacionService();
 const notificacionController = new NotificacionController(notificacionService);
 const sseController = new SSEController(sseService);
 
-// Configurar ping periódico para el SSE
 setInterval(() => {
   sseService.enviarPing();
-}, 30000); // 30 segundos
+}, 30000); 
 
 // Rutas de la aplicación
 app.use("/api", authRoutes);
@@ -158,15 +158,9 @@ app.use("/api", visualizarRentersRoutes);
 app.use("/api", listaDriversRoutes);
 app.use("/api", twofaRoutes);
 app.use("/api", editarDriverRoutes);
-
-
 app.use('/api', routesCodeLovers);
-// Rutas de api - SpeedCode
 app.use('/api', mapaRoutes);
-
-//Rutas de api - QA-nTastic
 app.use('/api', autoRoutes);
-
 
 // Rutas de notificaciones
 app.use("/api/notificaciones", createNotificacionRoutes());
@@ -195,8 +189,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-
-
 // Manejo de cierre del servidor
 process.on("SIGTERM", () => {
   console.log("Cerrando servidor...");
@@ -219,8 +211,6 @@ async function startServer() {
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`🌐 Environment: ${process.env.NODE_ENV || "development"}`);
-      console.log(`📡 Health check available at: http://localhost:${PORT}/health`);
     });
   } catch (error) {
     console.error("❌ Error al iniciar el servidor:", error);
@@ -228,12 +218,10 @@ async function startServer() {
   }
 }
 
-// Solo iniciar si este archivo es ejecutado directamente
 if (require.main === module) {
   startServer();
 }
 
-//cometarios de autos grupoX
 app.use("/api/cars", carRoutes);
 app.use('/api/autos' , carControllerRoutes);
 
