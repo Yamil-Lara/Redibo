@@ -2,7 +2,6 @@
 
 ![React](https://img.shields.io/badge/React-18.x-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
-![Vite](https://img.shields.io/badge/Vite-5.x-purple)
 ![Tailwind](https://img.shields.io/badge/Tailwind-3.x-cyan)
 ![Status](https://img.shields.io/badge/Status-Finalizado-green)
 
@@ -50,7 +49,7 @@ Integra geolocalización en tiempo real, notificaciones SSE, pagos digitales y u
 ## 🧰 Tecnologías
 ### Frontend (Client-Side)
 - **Framework:** Next.js 15 (App Router)
-- **Core:** React 19, TypeScript
+- **Core:** React 18, TypeScript
 - **Estilos:** Tailwind CSS 4
 - **Mapas:** React Leaflet
 - **HTTP Client:** Axios
