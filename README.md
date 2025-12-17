@@ -1,8 +1,11 @@
 # 🚗 RediBo
 
-![React](https://img.shields.io/badge/React-18.x-blue)
+![Next.js](https://img.shields.io/badge/Next.js-15.x-black)
+![React](https://img.shields.io/badge/React-19.x-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
-![Tailwind](https://img.shields.io/badge/Tailwind-3.x-cyan)
+![Express](https://img.shields.io/badge/Express-5.x-green)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-purple)
+![Tailwind](https://img.shields.io/badge/Tailwind-4.x-cyan)
 ![Status](https://img.shields.io/badge/Status-Finalizado-green)
 
 **RediBo** es una plataforma web integral para el **alquiler y gestión de vehículos**, desarrollada para la materia de Ingeniería de Software "IdSW" de la Universidad Mayor de San Simón "UMSS". Diseñada para conectar a dueños de vehículos (Hosts) con conductores (Drivers/Renters) mediante una experiencia segura y eficiente.
